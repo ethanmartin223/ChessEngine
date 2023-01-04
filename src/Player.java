@@ -30,4 +30,8 @@ public class Player {
         pieceList.add(new Queen(board,3,isWhite?0:7,color));
         pieceList.add(new King(board,4,isWhite?0:7,color));
     }
+
+    public String getColor() {
+        return color;
+    }
 }
