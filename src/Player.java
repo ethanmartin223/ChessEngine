@@ -19,7 +19,7 @@ public class Player {
     private void initializePieces() {
         boolean isWhite = (color==Player.WHITE);
         for (int x=0; x<8; x++) {
-            pieceList.add(new Pawn(board, x,isWhite?1:6,color));
+            //pieceList.add(new Pawn(board, x,isWhite?1:6,color));
         }
         pieceList.add(new Bishop(board,2,isWhite?0:7,color));
         pieceList.add(new Bishop(board,5,isWhite?0:7,color));

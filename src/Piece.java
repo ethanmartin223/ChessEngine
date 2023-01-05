@@ -54,7 +54,6 @@ public class Piece {
             //move piece
             moveTo(toX, toY);
             return true;
-
         } else {
             return false;
         }
@@ -62,6 +61,9 @@ public class Piece {
 
     //returns True if the coordinates provided are valid moves for this piece.
     public boolean isValidMove(int toX, int toY) {
+        if (getValidMoves() == null) {
+            return false;
+        }
         for (int[] validCoordinate : getValidMoves()) {
             if (validCoordinate[0] == toX && validCoordinate[1] == toY) {
                 return true;
