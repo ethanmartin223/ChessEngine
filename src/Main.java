@@ -27,6 +27,7 @@ public class Main {
             splitUserMove = userMove.split(" ");
             splitUserStart = splitUserMove[0].split(",");
             splitUserEnd = splitUserMove[1].split(",");
+
             chessboard.showValidMoves(chessboard.getPieceAt(
                     Integer.parseInt(splitUserStart[0]),
                     Integer.parseInt(splitUserStart[1])).getValidMoves());
@@ -39,7 +40,7 @@ public class Main {
             );
             if (attemptedMove.moveSucceeded) {
                 moveList.add(attemptedMove);
-                currentPlayer = whitePlayer == currentPlayer ? blackPlayer : whitePlayer;
+                //currentPlayer = whitePlayer == currentPlayer ? blackPlayer : whitePlayer;
             } else {
                 System.out.println("InvalidMove");
             }

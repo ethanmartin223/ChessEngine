@@ -5,12 +5,14 @@ public class Piece {
     protected String color;
     protected int x,y;
     protected ChessBoard board;
+    protected boolean hasMoved;
 
     public Piece(ChessBoard board, int x, int y, String color) {
         this.color = color;
         this.x = x;
         this.y = y;
         this.board = board;
+        this.hasMoved = false;
         assignSpace(x,y);
     }
 
@@ -32,7 +34,7 @@ public class Piece {
         return "N/A";
     }
 
-    public void moveTo(int x, int y) {
+    private void moveTo(int x, int y) {
         board.getBoard()[this.y][this.x] = null;
         this.x = x;
         this.y = y;
@@ -53,6 +55,7 @@ public class Piece {
         if (isValidMove(toX, toY)) {
             //move piece
             moveTo(toX, toY);
+            if (!hasMoved) hasMoved = true;
             return true;
         } else {
             return false;
@@ -60,7 +63,7 @@ public class Piece {
     }
 
     //returns True if the coordinates provided are valid moves for this piece.
-    public boolean isValidMove(int toX, int toY) {
+    private boolean isValidMove(int toX, int toY) {
         if (getValidMoves() == null) {
             return false;
         }
