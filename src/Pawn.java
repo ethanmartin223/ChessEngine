@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Pawn extends Piece {
     private int direction;
@@ -27,7 +28,15 @@ public class Pawn extends Piece {
                 validMoves.add(new int[] {this.x, this.y-2});
             }
         }
-        if (direction == -1  &&)
+        if (this.y+direction > -1 && this.y+direction < 8 &&
+                board.getPieceAt(this.x, this.y+direction) == null) {
+            validMoves.add(new int[] {this.x, this.y+direction});
+        }
+        if (this.x-1 > -1 && this.y+direction > -1 && this.y+direction < 8 &&
+                board.getPieceAt(this.x-1, this.y+direction) != null &&
+                !(board.getPieceAt(this.x - 1, this.y + direction).getColor().equals(this.color))) {
+            validMoves.add(new int[] {this.x-1, this.y+direction});
+        }
         return validMoves;
     }
 }
