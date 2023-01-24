@@ -2,17 +2,24 @@ import java.util.List;
 
 public class Piece {
 
+    protected int value;
     protected String color;
     protected int x,y;
     protected ChessBoard board;
     protected boolean hasMoved;
+    protected Player player;
+    protected byte identifier;
+
 
     public Piece(ChessBoard board, int x, int y, String color) {
         this.color = color;
+        this.player = (color.equals(Player.WHITE))?board.getWhitePlayer():board.getBlackPlayer();
         this.x = x;
         this.y = y;
         this.board = board;
         this.hasMoved = false;
+        this.value = 0;
+        this.identifier = 0x00;
         assignSpace(x,y);
     }
 
@@ -34,11 +41,17 @@ public class Piece {
         return "N/A";
     }
 
-    private void moveTo(int x, int y) {
+    private void moveBackend(int x, int y) {
         board.getBoard()[this.y][this.x] = null;
         this.x = x;
         this.y = y;
+        if (board.getPieceAt(this.x, this.y)!=null) {
+            player.incrementScore(this.value);
+            ((color.equals(Player.BLACK))?board.getWhitePlayer():board.getBlackPlayer()
+                    ).getPieceList().remove(board.getPieceAt(this.x, this.y));
+        }
         board.getBoard()[this.y][this.x] = this;
+
     }
 
     public String getColor() {
@@ -49,12 +62,10 @@ public class Piece {
         return null;
     }
 
-    // Returns true if move succeeded, else returns false;
-    // This way error handling is kept to strictly areas that need it.
-    public boolean attemptMove(int toX, int toY) {
+    /** Returns true if move succeeded, else returns false **/
+    public boolean moveTo(int toX, int toY) {
         if (isValidMove(toX, toY)) {
-            //move piece
-            moveTo(toX, toY);
+            moveBackend(toX, toY);
             if (!hasMoved) hasMoved = true;
             return true;
         } else {
@@ -62,7 +73,8 @@ public class Piece {
         }
     }
 
-    //returns True if the coordinates provided are valid moves for this piece.
+
+    /** Returns True if the coordinates provided are valid moves for this piece. **/
     private boolean isValidMove(int toX, int toY) {
         if (getValidMoves() == null) {
             return false;
@@ -76,6 +88,10 @@ public class Piece {
     }
     public List<int[]> getValidMoves() {
         return null;
+    }
+
+    public byte getIdentifier() {
+        return identifier;
     }
 }
 

@@ -6,6 +6,8 @@ public class Queen extends Piece {
 
     public Queen(ChessBoard board, int x, int y, String color) {
         super(board, x,y,color);
+        this.value = 9;
+        identifier = (byte)(color.equals(Player.WHITE)?0x1:0x7);
     }
 
     public String toString() {

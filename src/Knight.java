@@ -6,6 +6,8 @@ public class Knight extends Piece {
 
     public Knight(ChessBoard board, int x, int y, String color) {
         super(board, x,y,color);
+        this.value = 3;
+        identifier = (byte)(color.equals(Player.WHITE)?0x4:0xA);
     }
 
     public String toString() {

@@ -3,10 +3,12 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Bishop extends Piece {
-    private int[][] directions = new int[][] {{1,1}, {1,-1}, {-1,1},{-1,-1}};
+    private final int[][] directions = new int[][] {{1,1}, {1,-1}, {-1,1},{-1,-1}};
 
     public Bishop(ChessBoard board, int x, int y, String color) {
         super(board, x,y,color);
+        this.value = 3;
+        this.identifier = (byte)(color.equals(Player.WHITE)?0x2:0x8);
     }
 
     // Display piece symbol for showBoard function.

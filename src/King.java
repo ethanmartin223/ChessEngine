@@ -6,6 +6,8 @@ public class King extends Piece {
 
     public King(ChessBoard board, int x, int y, String color) {
         super(board, x,y,color);
+        this.value = Integer.MAX_VALUE;
+        identifier = (byte)(color.equals(Player.WHITE)?0x6:0xC);
     }
 
     public String toString() {
