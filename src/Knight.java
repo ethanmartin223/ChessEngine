@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Knight extends Piece {
-    private final int[][] directions = new int[][] {{-2,1}, {-1,2}, {-2,-1}, {-1,-2}, {2,1}, {2,-1}, {1,2}, {1,-2}};
+    public static final int[][] DIRECTIONS = new int[][] {{-2,1}, {-1,2}, {-2,-1}, {-1,-2}, {2,1}, {2,-1}, {1,2}, {1,-2}};
 
     public Knight(ChessBoard board, int x, int y, String color) {
         super(board, x,y,color);
         this.value = 3;
-        identifier = (byte)(color.equals(Player.WHITE)?0x4:0xA);
+        identifier = color.equals(Player.WHITE)?BoardState.WHITE_KNIGHT:BoardState.BLACK_KNIGHT;
     }
 
     public String toString() {
@@ -17,7 +17,7 @@ public class Knight extends Piece {
     @Override
     public List<int[]> getValidMoves() {
         List<int[]> validMoves = new ArrayList<>();
-        for (int[] direction : directions) {
+        for (int[] direction : DIRECTIONS) {
             if ((this.x+direction[0] > -1 && this.x+direction[0] < 8 && this.y+direction[1] > -1 && this.y+direction[1] < 8)
                     && ((board.getPieceAt(this.x+direction[0], this.y+direction[1]) == null) ||
                     !(board.getPieceAt(this.x+direction[0], this.y+direction[1]).getColor().equals(this.color)))) {

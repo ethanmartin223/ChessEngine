@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Queen extends Piece {
-    private final int[][] directions = new int[][] {{1,1}, {1,-1}, {-1,1},{-1,-1}, {0,1}, {1,0}, {-1,0}, {0,-1}};
+    public final int[][] DIRECTIONS = new int[][] {{1,1}, {1,-1}, {-1,1},{-1,-1}, {0,1}, {1,0}, {-1,0}, {0,-1}};
 
     public Queen(ChessBoard board, int x, int y, String color) {
         super(board, x,y,color);
         this.value = 9;
-        identifier = (byte)(color.equals(Player.WHITE)?0x1:0x7);
+        identifier = color.equals(Player.WHITE)?BoardState.WHITE_QUEEN:BoardState.BLACK_QUEEN;
     }
 
     public String toString() {
@@ -19,7 +19,7 @@ public class Queen extends Piece {
     public List<int[]> getValidMoves() {
         int evalX, evalY;
         List<int[]> validMoves = new ArrayList<int[]>();
-        for (int[] direction : directions) {
+        for (int[] direction : DIRECTIONS) {
             evalX = this.x+direction[0];
             evalY = this.y+direction[1];
 

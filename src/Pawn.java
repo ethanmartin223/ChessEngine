@@ -12,7 +12,7 @@ public class Pawn extends Piece {
             direction = -1;
         }
         this.value = 1;
-        identifier = (byte)(color.equals(Player.WHITE)?0x5:0xB);
+        identifier = color.equals(Player.WHITE)?BoardState.WHITE_PAWN:BoardState.BLACK_PAWN;
     }
 
     public String toString() {

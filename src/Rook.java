@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Rook extends Piece {
-    private final int[][] directions = new int[][] { {0,1}, {1,0}, {-1,0}, {0,-1}};
+    public final int[][] DIRECTIONS = new int[][] { {0,1}, {1,0}, {-1,0}, {0,-1}};
 
     public Rook(ChessBoard board, int x, int y, String color) {
         super(board, x,y,color);
         this.value = 5;
-        this.identifier = (byte)(color.equals(Player.WHITE)?0x3:0x9);
+        this.identifier = color.equals(Player.WHITE)?BoardState.WHITE_ROOK:BoardState.BLACK_ROOK;
     }
 
     public String toString() {
@@ -19,7 +19,7 @@ public class Rook extends Piece {
     public List<int[]> getValidMoves() {
         int evalX, evalY;
         List<int[]> validMoves = new ArrayList<int[]>();
-        for (int[] direction : directions) {
+        for (int[] direction : DIRECTIONS) {
             evalX = this.x+direction[0];
             evalY = this.y+direction[1];
 

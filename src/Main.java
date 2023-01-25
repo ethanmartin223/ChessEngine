@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -9,6 +10,9 @@ public class Main {
         chessboard.setWhitePlayer(whitePlayer);
         chessboard.setBlackPlayer(blackPlayer);
 
-        System.out.println(new BoardState(chessboard.getBoard()));
+        whitePlayer.move(4,1, 4,3);
+
+        BoardState currentBoardState = new BoardState(chessboard.getBoard());
+        chessboard.showValidMoves(currentBoardState.getAllPossibleMoves(Player.BLACK));
     }
 }
