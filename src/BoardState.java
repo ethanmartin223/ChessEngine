@@ -5,6 +5,7 @@ import java.util.List;
 public class BoardState {
     private int value;
     private byte[][] data;
+    private String turnColor;
 
     //to save memory this could be removed at the end, tho does not really matter
     public static final byte WHITE_QUEEN = 0x1;
@@ -33,7 +34,8 @@ public class BoardState {
 
 
 
-    public BoardState(Piece[][] boardData) {
+    public BoardState(Piece[][] boardData, String turnColor) {
+        this.turnColor = turnColor;
         data = new byte[8][8];
         for (int y=0; y< boardData.length; y++) {
             for (int x=0; x< boardData[0].length; x++) {
