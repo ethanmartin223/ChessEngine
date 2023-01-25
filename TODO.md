@@ -1,0 +1,1 @@
+Make all getMove functions static.
