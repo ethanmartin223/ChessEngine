@@ -5,7 +5,6 @@ import java.util.List;
 public class BoardState {
     private int value;
     private byte[][] data;
-    private String turnColor;
 
     //to save memory this could be removed at the end, tho does not really matter
     public static final byte WHITE_QUEEN = 0x1;
@@ -34,8 +33,7 @@ public class BoardState {
 
 
 
-    public BoardState(Piece[][] boardData, String turnColor) {
-        this.turnColor = turnColor;
+    public BoardState(Piece[][] boardData) {
         data = new byte[8][8];
         for (int y=0; y< boardData.length; y++) {
             for (int x=0; x< boardData[0].length; x++) {
@@ -55,6 +53,7 @@ public class BoardState {
     }
 
     public List<int[]> getMovesForPieceAt(int x, int y) {
+        String pieceColor = getColorOfPieceAt(x,y);
         if (data[y][x] == 0x0) {
             return null;
         } else {
@@ -70,11 +69,10 @@ public class BoardState {
 
                 case WHITE_KING:
                 case BLACK_KING:
-                    byte thisPiece = data[y][x]>0x9?BLACK_KING:WHITE_KING;
                     for (int[] direction : King.DIRECTIONS) {
                         if ((x+direction[0] > -1 && x+direction[0] < 8 && y+direction[1] > -1 && y+direction[1] < 8)
                                 && ((this.getPieceAt(x+direction[0], y+direction[1]) == 0x0) ||
-                                ((this.getPieceAt(x+direction[0], y+direction[1])==thisPiece && this.getPieceAt(x,y)>0x9)))) {
+                                (!(this.getColorOfPieceAt(x+direction[0], y+direction[1]).equals(pieceColor))))) {
                             validMoves.add(new int[] {x+direction[0], y+direction[1]});
                         }
                     }
@@ -93,7 +91,7 @@ public class BoardState {
                     for (int[] direction : Knight.DIRECTIONS) {
                         if ((x+direction[0] > -1 && x+direction[0] < 8 && y+direction[1] > -1 && y+direction[1] < 8)
                                 && ((this.getPieceAt(x+direction[0], y+direction[1]) == 0x0) ||
-                                (this.getPieceAt(x+direction[0], y+direction[1])>0x9 && this.getPieceAt(x,y)>0x9))) {
+                                (!this.getColorOfPieceAt(x+direction[0], y+direction[1]).equals(pieceColor)))) {
                             validMoves.add(new int[] {x+direction[0], y+direction[1]});
                         }
                     }
@@ -118,5 +116,9 @@ public class BoardState {
             }
         }
         return possibleMoves;
+    }
+
+    public String getColorOfPieceAt(int x, int y) {
+        return (data[y][x]>0x9)?Player.BLACK:Player.WHITE;
     }
 }

@@ -13,6 +13,6 @@ public class Main {
         whitePlayer.move(4,1, 4,3);
 
         BoardState currentBoardState = new BoardState(chessboard.getBoard());
-        chessboard.showValidMoves(currentBoardState.getAllPossibleMoves(Player.BLACK));
+        chessboard.showValidMoves(currentBoardState.getAllPossibleMoves(Player.WHITE));
     }
 }
