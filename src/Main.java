@@ -10,9 +10,11 @@ public class Main {
         chessboard.setWhitePlayer(whitePlayer);
         chessboard.setBlackPlayer(blackPlayer);
 
+        whitePlayer.move(7,1, 7,3);
         whitePlayer.move(4,1, 4,3);
 
+
         BoardState currentBoardState = new BoardState(chessboard.getBoard());
-        chessboard.showValidMoves(currentBoardState.getAllPossibleMoves(Player.WHITE));
+        chessboard.show();
     }
 }

@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class BoardState {
     private int value;
@@ -54,6 +52,7 @@ public class BoardState {
 
     public List<int[]> getMovesForPieceAt(int x, int y) {
         String pieceColor = getColorOfPieceAt(x,y);
+        int evalX, evalY;
         if (data[y][x] == 0x0) {
             return null;
         } else {
@@ -61,10 +60,38 @@ public class BoardState {
             switch (data[y][x]) {
                 case WHITE_QUEEN:
                 case BLACK_QUEEN:
+                    for (int[] direction : Queen.DIRECTIONS) {
+                        evalX = x+direction[0];
+                        evalY = y+direction[1];
+
+                        while (!(evalX > 7) && !(evalX < 0) && !(evalY > 7) && !(evalY < 0)) {
+                            if ((getPieceAt(evalX, evalY) == 0x0) || !(getColorOfPieceAt(evalX, evalY).equals(pieceColor))) {
+                                validMoves.add(new int[] {evalX, evalY});
+                            } else if (getColorOfPieceAt(evalX, evalY).equals(pieceColor)) {
+                                break;
+                            }
+                            evalX += direction[0];
+                            evalY += direction[1];
+                        }
+                    }
                     break;
 
                 case WHITE_BISHOP:
                 case BLACK_BISHOP:
+                    for (int[] direction : Bishop.DIRECTIONS) {
+                        evalX = x+direction[0];
+                        evalY = y+direction[1];
+
+                        while (!(evalX > 7) && !(evalX < 0) && !(evalY > 7) && !(evalY < 0)) {
+                            if ((getPieceAt(evalX, evalY) == 0x0) || !(getColorOfPieceAt(evalX, evalY).equals(pieceColor))) {
+                                validMoves.add(new int[] {evalX, evalY});
+                            } else if (getColorOfPieceAt(evalX, evalY).equals(pieceColor)) {
+                                break;
+                            }
+                            evalX += direction[0];
+                            evalY += direction[1];
+                        }
+                    }
                     break;
 
                 case WHITE_KING:
@@ -80,10 +107,46 @@ public class BoardState {
 
                 case WHITE_ROOK:
                 case BLACK_ROOK:
+                    for (int[] direction : Rook.DIRECTIONS) {
+                        evalX = x+direction[0];
+                        evalY = y+direction[1];
+
+                        while (!(evalX > 7) && !(evalX < 0) && !(evalY > 7) && !(evalY < 0)) {
+                            if ((getPieceAt(evalX, evalY) == 0x0) || !(getColorOfPieceAt(evalX, evalY).equals(pieceColor))) {
+                                validMoves.add(new int[] {evalX, evalY});
+                            } else if (getColorOfPieceAt(evalX, evalY).equals(pieceColor)) {
+                                break;
+                            }
+                            evalX += direction[0];
+                            evalY += direction[1];
+                        }
+                    }
                     break;
 
                 case WHITE_PAWN:
                 case BLACK_PAWN:
+                    int dir = pieceColor.equals(Player.WHITE)?1:-1;
+                    if ((y == 1 && pieceColor.equals(Player.WHITE)) || (y ==6 && pieceColor.equals(Player.BLACK))) {
+                        if (y == 1 && getPieceAt(x, y+2) ==0x0) {
+                            validMoves.add(new int[] {x, y+2});
+                        } else if (y == 6 && getPieceAt(x, y-2) == 0x0) {
+                            validMoves.add(new int[] {x, y-2});
+                        }
+                    }
+                    if (y+dir > -1 && y+dir < 8 &&
+                            getPieceAt(x, y+dir) == 0x0) {
+                        validMoves.add(new int[] {x, y+dir});
+                    }
+                    if (x-1 > -1 && y+dir > -1 && y+dir < 8 && x-1 < 8 &&
+                            getPieceAt(x-1, y+dir) != 0x0 &&
+                            !(getColorOfPieceAt(x - 1, y + dir).equals(pieceColor))) {
+                        validMoves.add(new int[] {x-1, y+dir});
+                    }
+                    if (y+dir > -1 && y+dir < 8 && x+1 < 8 &&
+                            getPieceAt(x+1, y+dir) != 0x0 &&
+                            !(getColorOfPieceAt(x + 1, y + dir).equals(pieceColor))) {
+                        validMoves.add(new int[] {x+1, y+dir});
+                    }
                     break;
 
                 case WHITE_KNIGHT:
@@ -105,17 +168,17 @@ public class BoardState {
         return data[y][x];
     }
 
-    public List<int[]> getAllPossibleMoves(String color) {
-        List<int[]> possibleMoves = new ArrayList<int[]>();
+    public Map<int[], List<int[]>> getAllPossibleMoves(String color) {
+        Map<int[], List<int[]>> moveMap = new HashMap<>();
         boolean isWhite = color.equals(Player.WHITE);
         for (int y=0; y<8; y++) {
             for (int x=0; x<8; x++) {
-                if (data[y][x]!=0x0&&((isWhite && data[y][x]<0x9)|| (!isWhite && data[y][x]>0x9))) {
-                    possibleMoves.addAll(getMovesForPieceAt(x,y));
+                if (data[y][x]!=0x0&&((isWhite && data[y][x]<0x9) || (!isWhite && data[y][x]>0x9))) {
+                    moveMap.put(new int[] {x,y}, getMovesForPieceAt(x,y));
                 }
             }
         }
-        return possibleMoves;
+        return moveMap;
     }
 
     public String getColorOfPieceAt(int x, int y) {

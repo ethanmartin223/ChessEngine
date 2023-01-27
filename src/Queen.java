@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Queen extends Piece {
-    public final int[][] DIRECTIONS = new int[][] {{1,1}, {1,-1}, {-1,1},{-1,-1}, {0,1}, {1,0}, {-1,0}, {0,-1}};
+    public static final int[][] DIRECTIONS = new int[][] {{1,1}, {1,-1}, {-1,1},{-1,-1}, {0,1}, {1,0}, {-1,0}, {0,-1}};
 
     public Queen(ChessBoard board, int x, int y, String color) {
         super(board, x,y,color);

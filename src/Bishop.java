@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Bishop extends Piece {
-    private final int[][] DIRECTIONS = new int[][] {{1,1}, {1,-1}, {-1,1},{-1,-1}};
+    public static final int[][] DIRECTIONS = new int[][] {{1,1}, {1,-1}, {-1,1},{-1,-1}};
 
     public Bishop(ChessBoard board, int x, int y, String color) {
         super(board, x,y,color);
