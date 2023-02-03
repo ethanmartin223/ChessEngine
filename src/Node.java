@@ -59,15 +59,23 @@ public class Node {
         return minimax(startingNode, Integer.MAX_VALUE, isMaxingPlayer);
     }
 
+    public String toString() {
+        return board.toString();
+    }
+
     private int getDepth() {
         return nodeDepth;
     }
 
-    private int generateNodes(String color) {
+    public void generateNodes(String color) {
+        BoardState newBoardState;
         Map<int[], List<int[]>> pieceMap = this.board.getAllPossibleMoves(color);
         for (int[] key : pieceMap.keySet()) {
             for (int[] move : pieceMap.get(key)) {
-                this.addChild(0, board);
+                newBoardState = new BoardState(board.getBoardData());
+                newBoardState.setValueOfPos(move[0], move[1], newBoardState.getValueOfPieceAt(key[0], key[1]));
+                newBoardState.setValueOfPos(key[0], key[1], (byte)0x0);
+                this.addChild(0, newBoardState);
             }
         }
     }

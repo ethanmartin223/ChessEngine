@@ -29,8 +29,6 @@ public class BoardState {
     public static final double NUMBER_OF_THREATENED_PIECES_MODIFIER = -0.35; // pieces being attacked. modifier
 
 
-
-
     public BoardState(Piece[][] boardData) {
         data = new byte[8][8];
         for (int y=0; y< boardData.length; y++) {
@@ -42,12 +40,29 @@ public class BoardState {
         }
     }
 
+    public BoardState(byte[][] boardData) {
+        data = new byte[8][8];
+        for (int y=0; y< boardData.length; y++) {
+            for (int x=0; x< boardData[0].length; x++) {
+                data[y][x] = boardData[y][x];
+            }
+        }
+    }
+
     public String toString() {
         return Arrays.deepToString(data).replace("], ", "], \n");
     }
 
     public float evaluateFitness() {
         return 0f;
+    }
+
+    public byte[][] getBoardData() {
+        return data;
+    }
+
+    public void setValueOfPos(int x, int y, byte value) {
+        data[y][x] = value;
     }
 
     public List<int[]> getMovesForPieceAt(int x, int y) {
@@ -183,5 +198,9 @@ public class BoardState {
 
     public String getColorOfPieceAt(int x, int y) {
         return (data[y][x]>0x9)?Player.BLACK:Player.WHITE;
+    }
+
+    public byte getValueOfPieceAt(int x, int y) {
+        return data[y][x];
     }
 }

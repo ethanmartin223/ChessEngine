@@ -13,8 +13,15 @@ public class Main {
         whitePlayer.move(7,1, 7,3);
         whitePlayer.move(4,1, 4,3);
 
-
         BoardState currentBoardState = new BoardState(chessboard.getBoard());
         chessboard.show();
+
+        Node parentNode = new Node(9, currentBoardState);
+        parentNode.generateNodes(Player.WHITE);
+
+        for (Node n: parentNode.getChildren()) {
+            System.out.println(n);
+            System.out.println();
+        }
     }
 }
