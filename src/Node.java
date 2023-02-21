@@ -9,6 +9,7 @@ public class Node {
     private int value;
     private int nodeDepth;
     private BoardState board;
+    private String move;
 
     public Node(int value, BoardState board) {
         this.parent = null;
@@ -16,18 +17,24 @@ public class Node {
         this.nodeDepth = 0;
         this.value = value;
         this.board = board;
+        move = "";
     }
 
-    public Node(int value, BoardState board, Node parent) {
+    public Node(int value, BoardState board, Node parent, String move) {
         this.parent = parent;
         this.children = new ArrayList<>();
         this.nodeDepth = parent.getDepth()+1;
         this.value = value;
         this.board = board;
+        this.move = move;
     }
 
-    public void addChild(int v, BoardState board) {
-        this.children.add(new Node(v, board, this));
+    public String getMove() {
+        return move;
+    }
+
+    public void addChild(int v, BoardState board, String m) {
+        this.children.add(new Node(v, board, this, m));
     }
 
     public List<Node> getChildren() {return children.size()>0?children:null;}
@@ -69,7 +76,8 @@ public class Node {
                 newBoardState = new BoardState(board.getBoardData());
                 newBoardState.setValueOfPos(move[0], move[1], newBoardState.getValueOfPieceAt(key[0], key[1]));
                 newBoardState.setValueOfPos(key[0], key[1], (byte)0x0);
-                this.addChild(newBoardState.evaluateFitness(color), newBoardState);
+                this.addChild(newBoardState.evaluateFitness(color), newBoardState,
+                        key[0]+","+key[1]+" "+move[0]+","+move[1]);
             }
         }
     }
@@ -78,8 +86,6 @@ public class Node {
         String color1 = color.equals(Player.WHITE) ? Player.BLACK : Player.WHITE;
         if (depth>0) {
             node.generateNodes(color1);
-            //System.out.println("\n"+node.board.evaluateFitness(color));
-            //System.out.println(node.board.toString());
             for (Node n : node.getChildren()) {
                 n.generateMoveTreePrivate(n, color1, depth-1);
             }

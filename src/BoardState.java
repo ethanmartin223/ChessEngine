@@ -73,8 +73,13 @@ public class BoardState {
         }
     }
 
-    public String toString() {
-        return Arrays.deepToString(data).replace("], ", "], \n");
+    public void show() {
+        for (int y=0; y< 8; y++) {
+            for (int x = 0; x < 8; x++) {
+                System.out.print(((""+getPieceAt(x,y)).length()>1)?getPieceAt(x,y)+",":getPieceAt(x,y)+", ");
+            }
+            System.out.println();
+        }
     }
 
     public byte[][] getBoardData() {
@@ -100,9 +105,13 @@ public class BoardState {
                         evalY = y+direction[1];
 
                         while (!(evalX > 7) && !(evalX < 0) && !(evalY > 7) && !(evalY < 0)) {
-                            if ((getPieceAt(evalX, evalY) == 0x0) || !(getColorOfPieceAt(evalX, evalY).equals(pieceColor))) {
+                            if ((getPieceAt(evalX, evalY) == 0x0)) {
                                 validMoves.add(new int[] {evalX, evalY});
-                            } else if (getColorOfPieceAt(evalX, evalY).equals(pieceColor)) {
+                            } else if (!(getColorOfPieceAt(evalX, evalY).equals(pieceColor))) {
+                                validMoves.add(new int[] {evalX, evalY});
+                                break;
+                            }
+                            else if (getColorOfPieceAt(evalX, evalY).equals(pieceColor)) {
                                 break;
                             }
                             evalX += direction[0];
@@ -118,8 +127,11 @@ public class BoardState {
                         evalY = y+direction[1];
 
                         while (!(evalX > 7) && !(evalX < 0) && !(evalY > 7) && !(evalY < 0)) {
-                            if ((getPieceAt(evalX, evalY) == 0x0) || !(getColorOfPieceAt(evalX, evalY).equals(pieceColor))) {
+                            if ((getPieceAt(evalX, evalY) == 0x0)) {
                                 validMoves.add(new int[] {evalX, evalY});
+                            } else if (!(getColorOfPieceAt(evalX, evalY).equals(pieceColor))) {
+                                validMoves.add(new int[]{evalX, evalY});
+                                break;
                             } else if (getColorOfPieceAt(evalX, evalY).equals(pieceColor)) {
                                 break;
                             }
@@ -147,8 +159,11 @@ public class BoardState {
                         evalY = y+direction[1];
 
                         while (!(evalX > 7) && !(evalX < 0) && !(evalY > 7) && !(evalY < 0)) {
-                            if ((getPieceAt(evalX, evalY) == 0x0) || !(getColorOfPieceAt(evalX, evalY).equals(pieceColor))) {
+                            if ((getPieceAt(evalX, evalY) == 0x0)) {
                                 validMoves.add(new int[] {evalX, evalY});
+                            } else if (!(getColorOfPieceAt(evalX, evalY).equals(pieceColor))) {
+                                validMoves.add(new int[]{evalX, evalY});
+                                break;
                             } else if (getColorOfPieceAt(evalX, evalY).equals(pieceColor)) {
                                 break;
                             }

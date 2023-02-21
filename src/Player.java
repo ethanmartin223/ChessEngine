@@ -5,11 +5,11 @@ public class Player {
     public static final String WHITE = "WHITE";
     public static final String BLACK = "BLACK";
 
-    protected String color;
-    protected List<Piece> pieceList;
-    protected ChessBoard board;
-    protected int score;
-    protected boolean isComputerPlayer;
+    private String color;
+    private List<Piece> pieceList;
+    private ChessBoard board;
+    private int score;
+    private boolean isComputerPlayer;
 
     public Player(ChessBoard chessboard, String color, boolean isComputerPlayer) {
         this.color = color;

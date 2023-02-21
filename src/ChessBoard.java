@@ -28,11 +28,17 @@ public class ChessBoard {
     }
 
     private void showBoardSpace(int y, int x) {
+        String c;
+        if (getPieceAt(x,y) != null) {
+            c = (getPieceAt(x, y).color.equals(Player.BLACK)) ? "\u001B[31m" : "";
+        } else {
+            c = "";
+        }
         if ((x+y)%2==1) {
-            System.out.print("\u001B[47m"+(pieceArray[y][x]!=null?pieceArray[y][x]:"   ")+"\u001B[0m");
+            System.out.print("\u001B[47m"+c+(pieceArray[y][x]!=null?pieceArray[y][x]:"   ")+"\u001B[0m");
         }
         else {
-            System.out.print("\u001B[40m"+(pieceArray[y][x]!=null?pieceArray[y][x]:"   ")+"\u001B[0m");
+            System.out.print("\u001B[40m"+c+(pieceArray[y][x]!=null?pieceArray[y][x]:"   ")+"\u001B[0m");
         }
     }
 

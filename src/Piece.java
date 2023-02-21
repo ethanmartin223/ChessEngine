@@ -46,7 +46,6 @@ public class Piece {
         this.x = x;
         this.y = y;
         if (board.getPieceAt(this.x, this.y)!=null) {
-            player.incrementScore(this.value);
             ((color.equals(Player.BLACK))?board.getWhitePlayer():board.getBlackPlayer()
                     ).getPieceList().remove(board.getPieceAt(this.x, this.y));
         }

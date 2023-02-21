@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -11,14 +12,36 @@ public class Main {
         chessboard.setWhitePlayer(whitePlayer);
         chessboard.setBlackPlayer(blackPlayer);
 
-        BoardState currentBoardState = new BoardState(chessboard.getBoard());
-        chessboard.show();
+        String userMove = null;
+        String[] splitUserMove, splitUserStart, splitUserEnd;
+        Player currentPlayer = whitePlayer;
+        Scanner stdin = new Scanner(System.in);
+        boolean moveSucceeded=false;
+        while (true) {
+            chessboard.show();
+            if (!currentPlayer.isComputerPlayer()) {
+                System.out.print("Move: ");
+                userMove = stdin.nextLine();
+            } else {
+                BoardState currentBoardState = new BoardState(chessboard.getBoard());
+                Node parentNode = new Node(0, currentBoardState);
+                parentNode.generateMoveTree(currentPlayer.getColor(), 4);
+                Node bestNode = Node.minimax(parentNode, Integer.MAX_VALUE, true);
+                userMove= bestNode.getMove();
+            }
+            splitUserMove = userMove.split(" ");
+            splitUserStart = splitUserMove[0].split(",");
+            splitUserEnd = splitUserMove[1].split(",");
+            moveSucceeded = currentPlayer.move(Integer.parseInt(splitUserStart[0]),
+                    Integer.parseInt(splitUserStart[1]),
+                    Integer.parseInt(splitUserEnd[0]),
+                    Integer.parseInt(splitUserEnd[1])
+            );
 
-
-        Node parentNode = new Node(0, currentBoardState);
-
-        parentNode.generateMoveTree(Player.WHITE, 5);
-        Node bestNode = Node.minimax(parentNode, Integer.MAX_VALUE, true);
-        System.out.println("\n\n"+bestNode+"\nScore of: "+bestNode.getBoard().evaluateFitness(Player.WHITE));
+            if (moveSucceeded)currentPlayer = whitePlayer == currentPlayer ? blackPlayer : whitePlayer;
+            else {
+                System.out.println("InvalidMove");
+            }
+        }
     }
 }
