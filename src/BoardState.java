@@ -28,6 +28,30 @@ public class BoardState {
     public static final double IN_CHECK_MODIFIER = -1;
     public static final double NUMBER_OF_THREATENED_PIECES_MODIFIER = -0.35; // pieces being attacked. modifier
 
+    public int evaluateFitness(String color) {
+        int totalBlackScore=0;
+        int totalWhiteScore=0;
+        for (int y=0; y<8; y++) {
+            for (int x = 0; x < 8; x++) {
+                if (getColorOfPieceAt(x, y).equals(Player.WHITE)) {
+                    totalWhiteScore += getPieceValue(getPieceAt(x,y));
+                } else if (getColorOfPieceAt(x, y).equals(Player.BLACK)) {
+                    totalBlackScore += getPieceValue(getPieceAt(x,y));
+                }
+            }
+        }
+        return (color.equals(Player.BLACK))?(totalBlackScore-totalWhiteScore):(totalWhiteScore-totalBlackScore);
+    }
+
+    private int getPieceValue(byte p) {
+        if (p==WHITE_PAWN||p==BLACK_PAWN) return 1;
+        else if (p==WHITE_BISHOP||p==BLACK_BISHOP) return 3;
+        else if (p==WHITE_KNIGHT||p==BLACK_KNIGHT) return 3;
+        else if (p==WHITE_ROOK||p==BLACK_ROOK) return 3;
+        else if (p==WHITE_KING||p==BLACK_KING) return 11;
+        else if (p==WHITE_QUEEN||p==BLACK_QUEEN) return 9;
+        else return 0;
+    }
 
     public BoardState(Piece[][] boardData) {
         data = new byte[8][8];
@@ -51,10 +75,6 @@ public class BoardState {
 
     public String toString() {
         return Arrays.deepToString(data).replace("], ", "], \n");
-    }
-
-    public float evaluateFitness() {
-        return 0f;
     }
 
     public byte[][] getBoardData() {

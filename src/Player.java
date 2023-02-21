@@ -11,12 +11,12 @@ public class Player {
     protected int score;
     protected boolean isComputerPlayer;
 
-    public Player(ChessBoard chessboard, String color) {
+    public Player(ChessBoard chessboard, String color, boolean isComputerPlayer) {
         this.color = color;
         this.pieceList = new ArrayList<>();
         score = 0;
         board = chessboard;
-        isComputerPlayer = false;
+        this.isComputerPlayer = isComputerPlayer;
         initializePieces();
     }
 
